@@ -5,13 +5,15 @@ using TMPro;
 
 public class MathQuestionController : MonoBehaviour
 {
-    [SerializeField] public TMP_Text operationText;
+    public TMP_Text operationText;
+    public TMP_Text scoreText;
+    public int PlayerPoints;
+    
     
    [SerializeField] ground2Controller question; 
     void Start()
     {
-       
-        
+       scoreText.text = "Pontos: " + PlayerPoints.ToString();
     }
 
     // Update is called once per frame
@@ -21,6 +23,8 @@ public class MathQuestionController : MonoBehaviour
             question = FindObjectOfType<ground2Controller>();
             operationText.text = question.textResult;
         }
+
+        scoreText.text = "Pontos: " + PlayerPoints.ToString();
          
     }
 }

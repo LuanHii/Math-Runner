@@ -26,7 +26,6 @@ public class GroundSpawner : MonoBehaviour
         } else {
             tileQuestionSpawned = false;
         }
-        Debug.Log(IsTileQuestionSpawned());
     }
 
     public void SpawnTile()

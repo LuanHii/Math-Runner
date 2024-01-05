@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -26,34 +24,34 @@ public class ground2Controller : MonoBehaviour
         num2 = Random.Range(1, 11);
         operation = Random.Range(1, 3);
 
-        if (operation == 1)
-            result = num1 + num2;
-        else
-            result = num1 * num2;
+        result = (operation == 1) ? num1 + num2 : num1 * num2;
 
         int indexRightChoice = Random.Range(0, 2);
         for (int i = 0; i < 2; i++)
         {
             Transform escolha = choices.GetChild(i);
+            TMP_Text textComponent = escolha.GetComponent<TMP_Text>();
+
             if (i == indexRightChoice)
-                escolha.GetComponent<TMP_Text>().text = result.ToString();
+            {
+                textComponent.text = result.ToString();
+                textComponent.tag = "RightChoice";
+            }
             else
             {
-                int wrongChoice = Random.Range(1, 21);
-                if (wrongChoice == result)
+                int wrongChoice;
+                do
                 {
-                    wrongChoice++;
-                    if (wrongChoice > 20)
-                        wrongChoice = 1;
-                }
-                escolha.GetComponent<TMP_Text>().text = wrongChoice.ToString();
+                    wrongChoice = Random.Range(1, 21);
+                } while (wrongChoice == result);
+
+                textComponent.text = wrongChoice.ToString();
+                textComponent.tag = "WrongChoice";
             }
+            Debug.Log("Tag do objeto " + textComponent.name + " é: " + escolha.tag);
         }
 
-        if (operation == 1)
-            textResult = num1 + " + " + num2 + " = ?";
-        else
-            textResult = num1 + " x " + num2 + " = ?";
+        textResult = (operation == 1) ? num1 + " + " + num2 : num1 + " x " + num2;
     }
 
     void Update()
