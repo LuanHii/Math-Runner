@@ -22,19 +22,13 @@ public class groundTile : MonoBehaviour
     private void OnTriggerExit(Collider other) {
     if (groundSpawner.groundCount >= 5 && !groundSpawner.IsTileQuestionSpawned()) {
         groundSpawner.SpawnTileQuestion();
-        StartCoroutine(DestroyAndReset());
+         Destroy(gameObject, 1);
     } else {
         groundSpawner.SpawnTile();
         groundSpawner.groundCount++;
-        StartCoroutine(DestroyAndReset());
+         Destroy(gameObject, 1);
     }
 }
 
-    private IEnumerator DestroyAndReset()
-    {
-        Destroy(gameObject, 2);
-        yield return new WaitForSeconds(2); 
-        
-        
-    }
+    
 }

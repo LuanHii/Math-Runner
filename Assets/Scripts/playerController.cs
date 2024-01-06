@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -6,12 +7,13 @@ public class PlayerController : MonoBehaviour
     private Vector2 dragStartPosition;
     [SerializeField] private GameObject gameManager;
     public GameObject canvas;
-    
-    
+    private UnityEngine.Animator anim;
 
-    
-    
-    
+
+
+
+
+
     private bool isDragging = false;
 
     public float dragThreshold = 50.0f;
@@ -21,18 +23,38 @@ public class PlayerController : MonoBehaviour
     private bool lane1 = true;
     private bool lane2 = false;
     private float targetXPosition;
+    float timer = 0f;
+    float increaseSpeedInterval = 3f;
 
     void Start()
     {
         playerTransform = transform;
         targetXPosition = playerTransform.position.x;
-        
-        
+        anim = GetComponentInChildren<Animator>();
+
+
     }
 
     void Update()
     {
         transform.Translate(Vector3.forward * runSpeed * Time.deltaTime);
+        timer += Time.deltaTime;
+
+
+        
+        float speedMultiplier = runSpeed / moveSpeed;
+        anim.SetFloat("animationSpeed", speedMultiplier * 2);
+
+
+
+        if (timer >= increaseSpeedInterval)
+        {
+            if (runSpeed < 50) {
+                runSpeed += 1;
+            }
+            
+            timer = 0f;
+        }
         if (Input.GetMouseButtonDown(0))
         {
             isDragging = true;
@@ -80,27 +102,34 @@ public class PlayerController : MonoBehaviour
         playerTransform.position = new Vector3(newX, playerTransform.position.y, playerTransform.position.z);
     }
 
-     void OnCollisionEnter(Collision collision)
+    void OnCollisionExit(Collision collision)
     {
-         MathQuestionController mathScript = gameManager.GetComponent<MathQuestionController>();
-         
+        MathQuestionController mathScript = gameManager.GetComponent<MathQuestionController>();
+        Image parentImage = mathScript.operationText.GetComponentInParent<Image>();
+
+
         if (collision.gameObject.CompareTag("RightChoice"))
         {
+
             BrilhoTela brilhoScript = canvas.GetComponentInChildren<BrilhoTela>();
-            brilhoScript.IniciarBrilho(0.7f,true);
+            brilhoScript.IniciarBrilho(0.7f, true);
             mathScript.PlayerPoints++;
             mathScript.operationText.text = "";
-             
-                
+            parentImage.enabled = false;
+            Debug.Log("acertou");
 
-            // Execute o que for necessário ao colidir com a tag especificada aqui
-        } 
 
-        else if (collision.gameObject.CompareTag("WrongChoice")) {
+
+
+        }
+
+        else if (collision.gameObject.CompareTag("WrongChoice"))
+        {
             BrilhoTela brilhoScript = canvas.GetComponentInChildren<BrilhoTela>();
-            brilhoScript.IniciarBrilho(0.7f,false);
+            brilhoScript.IniciarBrilho(0.7f, false);
             mathScript.PlayerPoints--;
             mathScript.operationText.text = "";
+            parentImage.enabled = false;
             Debug.Log("errou");
         }
     }
