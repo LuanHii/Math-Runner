@@ -312,6 +312,7 @@ MonoBehaviour:
   canvas: {fileID: 513926103}
   rightAnswerAudio: {fileID: 8300000, guid: 796aacebd0759f748801f4a0f357fd95, type: 3}
   wrongAnswerAudio: {fileID: 8300000, guid: 13991505fe21502429cf6cc17b6d3155, type: 3}
+  wooshAudio: {fileID: 8300000, guid: 70d2fda5f1a907b42add950daf09b0b6, type: 3}
   dragThreshold: 2
   moveSpeed: 50
   runSpeed: 20

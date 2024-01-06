@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 camPos;
     [SerializeField] private AudioClip rightAnswerAudio;
     [SerializeField] private AudioClip wrongAnswerAudio;
+    [SerializeField] private AudioClip wooshAudio;
 
 
 
@@ -94,11 +95,13 @@ public class PlayerController : MonoBehaviour
         {
             lane1 = false;
             lane2 = true;
+            AudioSource.PlayClipAtPoint(wooshAudio, camPos);
         }
         else if (target == -laneWidth / 2f)
         {
             lane1 = true;
             lane2 = false;
+            AudioSource.PlayClipAtPoint(wooshAudio, camPos);
         }
     }
 
