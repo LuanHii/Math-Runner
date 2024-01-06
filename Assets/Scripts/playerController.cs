@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject gameManager;
     public GameObject canvas;
     private UnityEngine.Animator anim;
+    private Vector3 camPos;
+    [SerializeField] private AudioClip rightAnswerAudio;
+    [SerializeField] private AudioClip wrongAnswerAudio;
+
 
 
 
@@ -33,15 +37,17 @@ public class PlayerController : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
 
 
+
     }
 
     void Update()
     {
+        camPos = Camera.main.transform.position;
         transform.Translate(Vector3.forward * runSpeed * Time.deltaTime);
         timer += Time.deltaTime;
 
 
-        
+
         float speedMultiplier = runSpeed / moveSpeed;
         anim.SetFloat("animationSpeed", speedMultiplier * 2);
 
@@ -49,10 +55,11 @@ public class PlayerController : MonoBehaviour
 
         if (timer >= increaseSpeedInterval)
         {
-            if (runSpeed < 50) {
+            if (runSpeed < 50)
+            {
                 runSpeed += 1;
             }
-            
+
             timer = 0f;
         }
         if (Input.GetMouseButtonDown(0))
@@ -116,6 +123,7 @@ public class PlayerController : MonoBehaviour
             mathScript.PlayerPoints++;
             mathScript.operationText.text = "";
             parentImage.enabled = false;
+            AudioSource.PlayClipAtPoint(rightAnswerAudio, camPos);
             Debug.Log("acertou");
 
 
@@ -130,6 +138,7 @@ public class PlayerController : MonoBehaviour
             mathScript.PlayerPoints--;
             mathScript.operationText.text = "";
             parentImage.enabled = false;
+            AudioSource.PlayClipAtPoint(wrongAnswerAudio, camPos);
             Debug.Log("errou");
         }
     }
