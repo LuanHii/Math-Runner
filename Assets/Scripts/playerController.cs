@@ -1,17 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class PlayerController : MonoBehaviour
 {
     private Transform playerTransform;
     private Vector2 dragStartPosition;
-    [SerializeField] private GameObject gameManager;
+    public GameObject gameManager;
     public GameObject canvas;
     private UnityEngine.Animator anim;
     private Vector3 camPos;
     [SerializeField] private AudioClip rightAnswerAudio;
     [SerializeField] private AudioClip wrongAnswerAudio;
     [SerializeField] private AudioClip wooshAudio;
+    public GameObject parentImage;
 
 
 
@@ -36,9 +38,7 @@ public class PlayerController : MonoBehaviour
         playerTransform = transform;
         targetXPosition = playerTransform.position.x;
         anim = GetComponentInChildren<Animator>();
-
-
-
+        
     }
 
     void Update()
@@ -51,14 +51,15 @@ public class PlayerController : MonoBehaviour
 
         float speedMultiplier = runSpeed / moveSpeed;
         anim.SetFloat("animationSpeed", speedMultiplier * 2);
-
+        
 
 
         if (timer >= increaseSpeedInterval)
         {
-            if (runSpeed < 50)
+            GameController gameController = gameManager.GetComponent<GameController>();
+            if (runSpeed < 80 && !gameController.isLosing)
             {
-                runSpeed += 1;
+                runSpeed += 1.5f;
             }
 
             timer = 0f;
@@ -115,7 +116,8 @@ public class PlayerController : MonoBehaviour
     void OnCollisionExit(Collision collision)
     {
         MathQuestionController mathScript = gameManager.GetComponent<MathQuestionController>();
-        Image parentImage = mathScript.operationText.GetComponentInParent<Image>();
+        
+        
 
 
         if (collision.gameObject.CompareTag("RightChoice"))
@@ -125,7 +127,7 @@ public class PlayerController : MonoBehaviour
             brilhoScript.IniciarBrilho(0.7f, true);
             mathScript.PlayerPoints++;
             mathScript.operationText.text = "";
-            parentImage.enabled = false;
+            parentImage.SetActive(false);
             AudioSource.PlayClipAtPoint(rightAnswerAudio, camPos);
             Debug.Log("acertou");
 
@@ -140,9 +142,12 @@ public class PlayerController : MonoBehaviour
             brilhoScript.IniciarBrilho(0.7f, false);
             mathScript.PlayerPoints--;
             mathScript.operationText.text = "";
-            parentImage.enabled = false;
+            parentImage.SetActive(false);
             AudioSource.PlayClipAtPoint(wrongAnswerAudio, camPos);
             Debug.Log("errou");
+            GameController gameController = gameManager.GetComponent<GameController>();
+            gameController.LostGame();
+
         }
     }
 }
