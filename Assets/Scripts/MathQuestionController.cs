@@ -35,7 +35,7 @@ public class MathQuestionController : MonoBehaviour
     }
 }
 
-        scoreText.text = "Pontos: " + PlayerPoints.ToString();
+        scoreText.text = PlayerPoints.ToString();
          
     }
 }
