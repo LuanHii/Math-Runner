@@ -28,6 +28,11 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
+    public void PausarJogo()
+    {
+        Debug.Log("Pausado.");
+    }
+
     public void FecharJogo()
     {
         Application.Quit();

@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
         if (timer >= increaseSpeedInterval)
         {
             GameController gameController = gameManager.GetComponent<GameController>();
-            if (runSpeed < 80 && !gameController.isLosing)
+            if (runSpeed < 80 && !gameController.isLosing && !gameController.pause)
             {
                 runSpeed += 1.5f;
             }
