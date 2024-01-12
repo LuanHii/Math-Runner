@@ -20,7 +20,7 @@ public class groundTile : MonoBehaviour
     }
 
     private void OnTriggerExit(Collider other) {
-    if (groundSpawner.groundCount >= 5 && !groundSpawner.IsTileQuestionSpawned()) {
+    if (groundSpawner.groundCount >= 3 && !groundSpawner.IsTileQuestionSpawned()) {
         groundSpawner.SpawnTileQuestion();
          Destroy(gameObject, 1);
     } else {

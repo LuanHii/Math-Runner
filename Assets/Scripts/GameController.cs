@@ -10,6 +10,9 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private PlayerController player;
     public TMP_Text gameOverText;
+    public TMP_Text pauseText;
+
+    public Image pauseScreen;
     
     public GameObject gameOver;
     public GameObject gameManager;
@@ -25,7 +28,8 @@ public class GameController : MonoBehaviour
     void Start()
     {
         gameOver.SetActive(false);
-    
+        pauseText.enabled = false;
+        pauseScreen.enabled = false;
     }
 
     // Update is called once per frame
@@ -60,12 +64,19 @@ public class GameController : MonoBehaviour
             audioSource.Pause();
             pause = true;
             pauseButton.image.sprite = playImg;
+            pauseScreen.enabled = true;
+            pauseScreen.color = new Color32(0,0,0,206);
+            pauseText.enabled = true;
         } 
         else {
             Time.timeScale = 1;
             audioSource.Play();
             pause = false;
             pauseButton.image.sprite = pauseImg;
+            pauseScreen.enabled = false;
+            pauseScreen.color = new Color32(0,0,0,206);
+            pauseText.enabled = false;
+            
         }
         
 
